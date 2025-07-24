@@ -22,6 +22,6 @@ Cypress.Commands.add ('Validation1', (descrição) => {
 
         cy.get(seldevfinance.valDescrição).should("have.text", descrição)
 
-        })
+})
         
         

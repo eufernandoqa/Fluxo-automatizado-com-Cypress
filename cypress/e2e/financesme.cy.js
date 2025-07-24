@@ -1,22 +1,15 @@
-import ButtonsSystem from "../support/Pages/Buttons";
-import Transacition from "../support/Pages/NewTransaction";
-import Validations from "../support/Pages/Validações";
-
-
-var Nova = new Transacition()
-var btn = new ButtonsSystem()
-var val = new Validations()
+import {faker} from '@faker-js/faker'
 
 describe('Novas transações', () => {
     context('Cadastrar e excluir transações em uma lista', () => {
-        
-        beforeEach(() => {
-            cy.visit("https://devfinance-agilizei.netlify.app/#")  
-        });
+    
+       
         it('Cadastrar Transação 1 e 2 e excluir a 1', () => {
+
+            const valor = faker.finance.accountNumber(4)
             
-            CadastroTransacao("Transação1", 500)
-            CadastroTransacao("Transação2", 300)
+            cy.new_transacao(faker.name.firstName(), valor)
+            cy.new_transacao("Transação2", 300)
             cy.get('[data-index="1"] > .description').should("have.text", "Transação2")
             cy.contains(".description", "Transação2").parent().find('img').click()
             cy.get('tbody tr').should("have.length", 1)
@@ -27,7 +20,7 @@ describe('Novas transações', () => {
         });
         
         it('Cadastrar transação ', () => {
-            CadastroTransacao("Transação2", 300)
+            cy.new_transacao("Transação2", 300)
             cy.get('.description').should("have.text", "Transação2")
             
         });
@@ -36,17 +29,9 @@ describe('Novas transações', () => {
     });
 
     context('Cadastrar uma trasação TESTE 2', () => {
-        it('Visitar o site', () => {
-            Nova.NewTrans('Transação2', 500)
-            btn.ButtonSave()
-            val.Validation1('Transação2')
-   
-        });
-
-
-        it.only('Testando Xpath', () => {
+        it('Testando Xpath', () => {
             cy.visit("https://devfinance-agilizei.netlify.app/#")  
-            cy.get('[@id="transaction"]/a')
+            cy.get("a[class='button new']") //*[@id="transaction"]/a
 
         });
     });
